@@ -3,7 +3,10 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Home from './components/Home';
+// import Home from './components/Home'; Do not need home now that we have a route for it
+import Routes from './Routes';
+import { BrowserRouter } from 'react-router-dom';
+
 
 //we have already rendered the app once on the server (index.js) into a skeletal template with renderToString
 //we want to render into the same div that the app was rendered on the server
@@ -13,4 +16,7 @@ import Home from './components/Home';
 //ReactDOM.render(<Home/>, document.querySelector('#root'));
 
 //replace render for more appropriate method: hydrate
-ReactDOM.hydrate(<Home/>, document.querySelector('#root'));
+ReactDOM.hydrate( // browser router does not work on server because it expects a url and server has no url
+    <BrowserRouter> 
+    <Routes/>
+    </BrowserRouter>, document.querySelector('#root'));

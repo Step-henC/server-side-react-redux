@@ -13,9 +13,9 @@ const app = express();
 
 app.use(express.static('public')) //tell express app to make our public dir like a static open to the outside world
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => { //we pass in all routes to allow react to handle routing. StaticRouter for server, browserRouter in client for URL
 
-res.send(Renderer())
+res.send(Renderer(req))
 })
 
 
