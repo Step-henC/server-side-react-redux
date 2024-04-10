@@ -11,5 +11,6 @@ import Home from './components/Home';
 //not replacing anything, but telling react load up event listeners for buttons etc
 //re-rendering over once-rendered html like we are doing is known as "hydration"
 //ReactDOM.render(<Home/>, document.querySelector('#root'));
+
 //replace render for more appropriate method: hydrate
 ReactDOM.hydrate(<Home/>, document.querySelector('#root'));
