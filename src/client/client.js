@@ -1,11 +1,16 @@
 //entry point for client side code base
 //the second entry point is index.js for server-side codebase
-
-import React from 'react'
+import 'babel-polyfill';
+import React from 'react';
 import ReactDOM from 'react-dom'
-// import Home from './components/Home'; Do not need home now that we have a route for it
 import Routes from './Routes';
 import { BrowserRouter } from 'react-router-dom';
+import {createStore, applyMiddleware} from 'redux'; 
+import thunk from 'redux-thunk'; //handle async action creators
+import {Provider} from 'react-redux'; //ties store and react together. 
+import reducers from './reducers';
+
+const store = createStore(reducers, {}, applyMiddleware(thunk));
 
 
 //we have already rendered the app once on the server (index.js) into a skeletal template with renderToString
@@ -17,6 +22,9 @@ import { BrowserRouter } from 'react-router-dom';
 
 //replace render for more appropriate method: hydrate
 ReactDOM.hydrate( // browser router does not work on server because it expects a url and server has no url
+<Provider store={store}>
     <BrowserRouter> 
     <Routes/>
-    </BrowserRouter>, document.querySelector('#root'));
+    </BrowserRouter>
+    </Provider>
+, document.querySelector('#root'));
