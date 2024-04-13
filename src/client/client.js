@@ -9,7 +9,7 @@ import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk'; //handle async action creators
 import {Provider} from 'react-redux'; //ties store and react together. 
 import reducers from './reducers';
-
+import { renderRoutes } from 'react-router-config';
 const store = createStore(reducers, {}, applyMiddleware(thunk));
 
 
@@ -24,7 +24,7 @@ const store = createStore(reducers, {}, applyMiddleware(thunk));
 ReactDOM.hydrate( // browser router does not work on server because it expects a url and server has no url
 <Provider store={store}>
     <BrowserRouter> 
-    <Routes/>
+    <div>{renderRoutes(Routes)}</div>
     </BrowserRouter>
     </Provider>
 , document.querySelector('#root'));

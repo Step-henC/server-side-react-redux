@@ -27,4 +27,11 @@ function mapStateToProps(state){
     return {users: state.users};
 }
 
+//update redux store on server side and only load components once data received
+function loadData(store){//store comes from index.js 
+   return  store.dispatch(fetchUsers()); //accept server redux store as paramaeter and dispatch for api call, retrn a promis
+   //load page once promise resolved
+}
+
+export {loadData};
 export default connect(mapStateToProps, {fetchUsers})(UsersList)

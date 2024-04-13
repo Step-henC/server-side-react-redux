@@ -3,6 +3,7 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import Routes from '../client/Routes';
 import {Provider} from 'react-redux';
+import {renderRoutes} from 'react-router-config';
 
 export default(req, store) => {
     //renderToString differs from render in that it takes all React components one time, converts to html and stringifies it
@@ -12,7 +13,7 @@ export default(req, store) => {
 const content = renderToString(
 <Provider store={store}>
     <StaticRouter location={req.path} context={{}}>
-    <Routes/> 
+    <div>{renderRoutes(Routes)}</div>
 </StaticRouter>
 </Provider>); //node cannot read jsx so we told webpack to bundle code
 //using babel to transpile jsx to ES5 javascript. After building bundle with "npm dev:build:server"

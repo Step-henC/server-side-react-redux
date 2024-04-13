@@ -10,6 +10,8 @@ import 'babel-polyfill'; //defines helper functions like async await syntax
 import express from 'express';
 import Renderer from './helpers/Renderer';
 import createStore from './helpers/createStore';
+import { matchRoutes } from 'react-router-config';
+import Routes from './client/Routes';
 
 const app = express();
 
@@ -18,9 +20,12 @@ app.use(express.static('public')) //tell express app to make our public dir like
 const store = createStore();
 app.get('*', (req, res) => { //we pass in all routes to allow react to handle routing. StaticRouter for server, browserRouter in client for URL
 
-res.send(Renderer(req, store))
-})
+const promises = matchRoutes(Routes, req.path).map(({route}) => { //deconstruct matchRoutes object to get "route" and get loadData function
+    return route.loadData ? route.loadData(store) : null; //not all objects in react-router-config array will have loadData function
+});
 
+Promise.all(promises).then(() => res.send(Renderer(req, store)));
+})
 
 app.listen(3000, () => {
     console.log('listening on 3000')
