@@ -17,7 +17,15 @@ const content = renderToString(
 </Provider>); //node cannot read jsx so we told webpack to bundle code
 //using babel to transpile jsx to ES5 javascript. After building bundle with "npm dev:build:server"
 //we told node to execute bundle with command "node build/bundle.js"
+//changed dev:build:server to just dev:build-server because npm-run-all package gets confused with extra semicolon
 
+
+//BUNDLE.JS Notes
+//the bundle.js script tag tells the browser to go back to the server
+//and download our js bundle for the front-end (Client) code
+//because we did express.static('public' ) express server tells browser where to look, and browser looks in dir for bundle.js
+//IMPORTANTLY, the point of SSR (server-side-rendering) we are getting html immediately, somehting shown on screen immediately
+//getting js code (for button clicks, etc) later to reduce SSR page load times
 return ` 
     <html>
      <head></head>
