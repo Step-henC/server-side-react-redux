@@ -1,8 +1,9 @@
 //shared with client and server
 
 import React from 'react';
-import Home from './components/Home';
-import UsersList, {loadData} from './components/UsersList';
+import HomePage from './pages/HomePage';
+import UsersListPage from './pages/UsersListPage';
+import App from './pages/App';
 
 
 // export default() => {
@@ -22,15 +23,22 @@ import UsersList, {loadData} from './components/UsersList';
 //instead, we look at what a given component needs (api call, etc) and then call the resources for render
 
 export default [
-    {
-        path: '/',
-        component: Home,
-        exact: true
-    }, 
-    {
-        //loadData: loadData, //simplify
-        loadData,
-        path: '/users',
-        component: UsersList,
-    }, 
+   {
+        ...App, //component nesting so something is always displayed no matter what
+        routes: [
+            {
+                ...HomePage,
+                path: '/',
+                exact: true
+            }, 
+            {
+                //loadData: loadData, //simplify
+                ...UsersListPage,
+                path: '/users',
+            
+            },
+        ]
+   }
 ]
+
+ 

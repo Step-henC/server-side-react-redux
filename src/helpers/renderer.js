@@ -4,6 +4,7 @@ import { StaticRouter } from 'react-router-dom';
 import Routes from '../client/Routes';
 import {Provider} from 'react-redux';
 import {renderRoutes} from 'react-router-config';
+import serializeJavascript from 'serialize-javascript';//prevents XSS by converting code chars (<>, etc) into unicode equivalent
 
 export default(req, store) => {
     //renderToString differs from render in that it takes all React components one time, converts to html and stringifies it
@@ -33,6 +34,9 @@ return `
         <body>
             <div id="root">${content}</div>
             <script src="bundle.js"></script>
+            <script> 
+                window.INITIAL_STATE = ${serializeJavascript(store.getState())}
+            </script>
         </body>
     </html>
 `;

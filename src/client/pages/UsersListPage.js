@@ -33,5 +33,8 @@ function loadData(store){//store comes from index.js
    //load page once promise resolved
 }
 
-export {loadData};
-export default connect(mapStateToProps, {fetchUsers})(UsersList)
+
+export default {
+    loadData,
+    component: connect(mapStateToProps, {fetchUsers})(UsersList)
+}

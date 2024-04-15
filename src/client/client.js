@@ -10,7 +10,15 @@ import thunk from 'redux-thunk'; //handle async action creators
 import {Provider} from 'react-redux'; //ties store and react together. 
 import reducers from './reducers';
 import { renderRoutes } from 'react-router-config';
-const store = createStore(reducers, {}, applyMiddleware(thunk));
+import axios from 'axios';
+
+const axiosInstance = axios.create({ //this auto-prepend /api/ to all our requests
+    baseURL: '/api'
+})
+
+const store = createStore(reducers, window.INITIAL_STATE, 
+        applyMiddleware(thunk.withExtraArgument(axiosInstance))
+    );
 
 
 //we have already rendered the app once on the server (index.js) into a skeletal template with renderToString
