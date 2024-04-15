@@ -4,11 +4,9 @@ import React from 'react'; //ES2015 module syntax
 
 const Home = () => {
     return (
-        <div>
-            <div>
-                I am the best Home
-            </div>
-            <button onClick={() => console.log('Hi')}>Press Me</button>
+        <div className='center-align' style={{marginTop: '200px'}}>
+            <h3>Welocome!</h3>
+            <p>Check out these awesome features!</p>
         </div>
     )
 }

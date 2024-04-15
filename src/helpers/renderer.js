@@ -30,7 +30,9 @@ const content = renderToString(
 //getting js code (for button clicks, etc) later to reduce SSR page load times
 return ` 
     <html>
-     <head></head>
+     <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+     </head>
         <body>
             <div id="root">${content}</div>
             <script src="bundle.js"></script>
