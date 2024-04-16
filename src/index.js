@@ -38,9 +38,29 @@ app.get("*", (req, res) => {
   const promises = matchRoutes(Routes, req.path).map(({ route }) => {
     //deconstruct matchRoutes object to get "route" and get loadData function
     return route.loadData ? route.loadData(store) : null; //not all objects in react-router-config array will have loadData function
+
+  }).map(promise => { //could add in route.loadData(store) but new map is cleaner looking
+    if (promise){ //and not null like above
+      return new Promise((resolve, reject) => {
+        promise.then(resolve).catch(resolve); //if good or bad we will resolve all promises for Promise.all below
+      }) //instead of catch statement in Promise.all that will not complete all promises, since catch is thrown at first failuer
+      //so we wrap promises in a new promise and resolve all, even though final render will not see failed promises
+    }
   });
 
-  Promise.all(promises).then(() => res.send(Renderer(req, store)));
+  Promise.all(promises).then(() => {
+    const context = {} //need this for 404 response code
+    const content = Renderer(req, store, context)
+
+    if (context.url == '/'){ //in the requireAuth helper our redirect passes a url property with the home '/'
+      return res.redirect(301, context.url) //status code 301 means temporary redirect
+    }
+    if (context.notFound){
+      res.status(404);
+    }
+    res.send(content)
+  
+  });
 });
 
 app.listen(3000, () => {

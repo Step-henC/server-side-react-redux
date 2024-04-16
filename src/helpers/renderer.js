@@ -6,14 +6,15 @@ import {Provider} from 'react-redux';
 import {renderRoutes} from 'react-router-config';
 import serializeJavascript from 'serialize-javascript';//prevents XSS by converting code chars (<>, etc) into unicode equivalent
 
-export default(req, store) => {
+export default(req, store, context) => {
     //renderToString differs from render in that it takes all React components one time, converts to html and stringifies it
     //where as render creates instances of components on DOM node
     //need static router for server side because browserRouter uses url context is required
     //StaticRouter needs the url from req object in express
+    //staticRouter passes context to all rendered components
 const content = renderToString(
 <Provider store={store}>
-    <StaticRouter location={req.path} context={{}}>
+    <StaticRouter location={req.path} context={context}> 
     <div>{renderRoutes(Routes)}</div>
 </StaticRouter>
 </Provider>); //node cannot read jsx so we told webpack to bundle code
