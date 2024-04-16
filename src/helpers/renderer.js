@@ -5,6 +5,7 @@ import Routes from '../client/Routes';
 import {Provider} from 'react-redux';
 import {renderRoutes} from 'react-router-config';
 import serializeJavascript from 'serialize-javascript';//prevents XSS by converting code chars (<>, etc) into unicode equivalent
+import { Helmet } from 'react-helmet';
 
 export default(req, store, context) => {
     //renderToString differs from render in that it takes all React components one time, converts to html and stringifies it
@@ -23,6 +24,9 @@ const content = renderToString(
 //changed dev:build:server to just dev:build-server because npm-run-all package gets confused with extra semicolon
 
 
+
+const helmet = Helmet.renderStatic(); //object of all tags we loaded in library. use to stick in header
+
 //BUNDLE.JS Notes
 //the bundle.js script tag tells the browser to go back to the server
 //and download our js bundle for the front-end (Client) code
@@ -32,6 +36,8 @@ const content = renderToString(
 return ` 
     <html>
      <head>
+     ${helmet.title.toString()}
+     ${helmet.meta.toString()}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
      </head>
         <body>
